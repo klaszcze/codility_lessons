@@ -1,6 +1,7 @@
 def solution(a, b, k)
   mod_a = a % k
-  div = b - a
-  range = mod_a == 0 ? div + 1 : div + mod_a
-  (range.to_f / k).floor
+  div = b - a + mod_a
+  counter = (div.to_f / k).floor
+  counter += 1 if mod_a == 0
+  counter
 end
