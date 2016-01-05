@@ -1,5 +1,4 @@
 def solution(a)
-  # write your code in Ruby 2.2
   unless a.max == a.length
     return 0
   end
