@@ -1,29 +1,23 @@
 def solution(array)
+  array_slicer = ArraySlicer.new(array)
 
-  array_size = array.size
+  [2, 3].each { |length| array_slicer.check_slice_min(length) }
+  array_slicer.min_row
+end
 
-  prefix_sums = [0] * (array_size + 1)
+class ArraySlicer
+  attr_reader :min_row
 
-  1.upto(array_size) do |number|
-    prefix_sums[number] = prefix_sums[number - 1] + array[number - 1]
+  def initialize(array)
+    @array = array
+    @min_avg = Float::INFINITY
+    @min_row = 0
   end
 
-
-  min_avg = Float::INFINITY
-  min_row = 0
-  array.each.with_index do |row, index|
-    puts index
-    (index + 2).upto(array_size) do |counter|
-      beg = ( index > 0 ? prefix_sums[index - 2] : 0 )
-      new_avg = ( prefix_sums[counter] - beg ).to_f / (counter - index)
-      puts "+++++++"
-      puts "#{prefix_sums[counter]}, #{beg}"
-      if new_avg < min_avg
-        min_avg = new_avg
-        min_row = index
-        puts "#{min_avg}, #{min_row}"
-      end
+  def check_slice_min(length)
+    @array.each_cons(length).with_index do |con, i|
+      new_avg = con.inject(:+) / length.to_f
+      @min_avg, @min_row = new_avg, i if new_avg < @min_avg
     end
   end
-  min_row
 end
